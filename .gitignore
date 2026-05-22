@@ -7,3 +7,10 @@ Thumbs.db
 node_modules/
 .env
 .env.local
+
+# Playwright QA artefacts
+.playwright-mcp/
+*-desktop.png
+*-mobile.png
+aperture-hero.jpeg
+

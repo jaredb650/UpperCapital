@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upper Capital — Design Explorations</title>
+  <meta name="description" content="Four design directions for Upper Capital. Pick a vibe." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Just enough fonts to render each tile's identifying type -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=JetBrains+Mono:wght@400;500;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Unbounded:wght@500..700&family=Instrument+Serif:ital@1&display=swap" />
+
+  <style>
+    :root {
+      --bg:       #f5f3ee;
+      --bg-up:    #ede9df;
+      --ink:      #18161a;
+      --ink-soft: #4a4644;
+      --ink-mute: #8a8480;
+      --rule:     rgba(24, 22, 26, 0.12);
+      --rule-soft: rgba(24, 22, 26, 0.06);
+      --font:     -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    * { margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.08  0 0 0 0 0.06  0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 3rem) 4rem;
+    }
+
+    /* ----- HEADER ----- */
+    .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+      flex-wrap: wrap;
+    }
+    .head__brand {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+    .head__brand span { color: var(--ink); font-weight: 600; }
+    .head__date {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      color: var(--ink-mute);
+      text-transform: uppercase;
+    }
+
+    /* ----- TITLE ----- */
+    .title {
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+      max-width: 900px;
+    }
+    .title h1 {
+      font-size: clamp(2rem, 5vw + 0.5rem, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    .title h1 em {
+      font-family: "Fraunces", "Times New Roman", serif;
+      font-style: italic;
+      font-variation-settings: "opsz" 144, "SOFT" 80, "WONK" 1;
+      font-weight: 400;
+    }
+    .title p {
+      font-size: clamp(1rem, 1vw + 0.4rem, 1.15rem);
+      line-height: 1.55;
+      color: var(--ink-soft);
+      max-width: 60ch;
+    }
+
+    /* ----- META BAR ----- */
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .meta span {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+    .meta strong { color: var(--ink); font-weight: 500; }
+
+    /* ----- GRID ----- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(1rem, 2.5vw, 1.75rem);
+    }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      display: grid;
+      grid-template-rows: 200px auto;
+      background: var(--bg-up);
+      border: 1px solid var(--rule);
+      overflow: hidden;
+      transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
+                  border-color 0.35s ease,
+                  box-shadow 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(24, 22, 26, 0.4);
+      box-shadow: 0 12px 36px -10px rgba(24, 22, 26, 0.18);
+    }
+
+    /* ----- TILE PREVIEW (per concept) ------------------------ */
+    .tile {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      transition: transform 0.6s ease;
+    }
+    .card:hover .tile { transform: scale(1.03); }
+
+    /* 01 LEDGER */
+    .tile--ledger {
+      background: linear-gradient(160deg, #f5f1e8, #e8e0cd);
+      color: #1c1814;
+    }
+    .tile--ledger .preview {
+      font-family: "Fraunces", "Times New Roman", serif;
+      font-size: 7rem;
+      font-weight: 400;
+      font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;
+      line-height: 0.85;
+      letter-spacing: -0.04em;
+    }
+    .tile--ledger .preview span {
+      font-style: italic;
+      color: #7a1d24;
+      font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+      font-size: 0.5em;
+      vertical-align: 0.4em;
+    }
+    .tile--ledger::after {
+      content: "";
+      position: absolute; inset: 1rem;
+      border: 1px solid rgba(28, 24, 20, 0.12);
+      pointer-events: none;
+    }
+
+    /* 02 VAULT */
+    .tile--vault {
+      background: #08080a;
+      color: #ededed;
+    }
+    .tile--vault .preview {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .tile--vault .preview .hl { color: #c8ff2c; }
+    .tile--vault::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent 0px, transparent 3px, rgba(255,255,255,0.02) 3px, rgba(255,255,255,0.02) 4px);
+    }
+    .tile--vault::after {
+      content: "[ VAULT ]";
+      position: absolute;
+      top: 1rem; left: 1rem;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      color: #c8ff2c;
+    }
+
+    /* 03 APERTURE */
+    .tile--aperture {
+      background: radial-gradient(ellipse at 50% 50%, #181534, #05060f);
+      color: #e8edf5;
+    }
+    .tile--aperture .preview {
+      position: relative;
+      width: 130px;
+      height: 130px;
+    }
+    .tile--aperture .ring {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(79, 227, 255, 0.4);
+    }
+    .tile--aperture .ring:nth-child(1) { inset: 0; border-color: rgba(79, 227, 255, 0.6); animation: ap-spin 18s linear infinite; }
+    .tile--aperture .ring:nth-child(2) { inset: 16%; border-color: rgba(124, 92, 255, 0.45); animation: ap-spin 30s linear infinite reverse; }
+    .tile--aperture .ring:nth-child(3) { inset: 32%; border-color: rgba(255, 176, 102, 0.3); animation: ap-spin 42s linear infinite; }
+    .tile--aperture .ring:nth-child(4) {
+      inset: 44%;
+      background: radial-gradient(circle, rgba(79, 227, 255, 0.5), transparent 70%);
+      border: none;
+    }
+    @keyframes ap-spin { to { transform: rotate(360deg); } }
+    .tile--aperture::after {
+      content: "/ APERTURE";
+      position: absolute;
+      top: 1rem; left: 1rem;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: #4fe3ff;
+      opacity: 0.7;
+    }
+
+    /* 04 FORUM */
+    .tile--forum {
+      background: #0d2a2b;
+      color: #f0e6d2;
+      overflow: hidden;
+    }
+    .tile--forum .preview {
+      font-family: "Bodoni Moda", "Didot", serif;
+      font-weight: 500;
+      font-size: 4.5rem;
+      letter-spacing: -0.04em;
+      line-height: 0.85;
+      font-variation-settings: "opsz" 96;
+    }
+    .tile--forum .preview em {
+      font-family: "Instrument Serif", serif;
+      font-style: italic;
+      color: #d4593f;
+      font-weight: 400;
+      display: block;
+      margin-left: 1.5rem;
+      font-size: 0.7em;
+    }
+    .tile--forum::after {
+      content: "§ FORUM";
+      position: absolute;
+      top: 1rem; left: 1rem;
+      font-family: "Bodoni Moda", serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: #d4593f;
+      font-variation-settings: "opsz" 24;
+    }
+
+    /* ----- CARD BODY ----- */
+    .card__body {
+      padding: 1.5rem;
+      display: grid;
+      gap: 0.5rem;
+      align-content: start;
+      border-top: 1px solid var(--rule);
+    }
+    .card__no {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--ink-mute);
+      text-transform: uppercase;
+    }
+    .card__name {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 500;
+      font-size: 1.6rem;
+      letter-spacing: -0.015em;
+      font-variation-settings: "opsz" 144, "SOFT" 20;
+      color: var(--ink);
+    }
+    .card__desc {
+      font-size: 0.94rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 42ch;
+    }
+    .card__tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.4rem;
+    }
+    .tag {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+    }
+    .card__open {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+      transition: gap 0.3s ease;
+    }
+    .card:hover .card__open { gap: 0.7rem; }
+    .card__open .arr { display: inline-block; transition: transform 0.3s ease; }
+    .card:hover .card__open .arr { transform: translateX(3px); }
+
+    /* ----- FOOTER ----- */
+    .foot {
+      margin-top: clamp(3rem, 6vw, 5rem);
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      color: var(--ink-mute);
+      text-transform: uppercase;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="head">
+      <div class="head__brand">
+        Working file · <span>Upper Capital × Jared Beguelin</span>
+      </div>
+      <div class="head__date" id="date">— · — · —</div>
+    </div>
+
+    <div class="title">
+      <h1>Four design directions for <em>Upper Capital</em>.</h1>
+      <p>
+        Each link below opens a complete, working single-page demo built around the real content
+        of Upper Capital. They are stylistically distinct on purpose — no two share a design language.
+        Click through, react, and we'll lock the direction.
+      </p>
+    </div>
+
+    <div class="meta">
+      <span>Status — <strong>Round 01</strong></span>
+      <span><strong>4</strong> concepts</span>
+      <span><strong>Static</strong> — HTML/CSS/JS</span>
+      <span>Deployed on <strong>GitHub Pages</strong></span>
+    </div>
+
+    <div class="grid">
+
+      <!-- 01 LEDGER -->
+      <a class="card" href="demos/01-ledger/index.html">
+        <div class="tile tile--ledger">
+          <div class="preview">150<span>+</span></div>
+        </div>
+        <div class="card__body">
+          <span class="card__no">— 01</span>
+          <span class="card__name">Ledger</span>
+          <p class="card__desc">Editorial &amp; refined. Cream paper, ink black, oxblood accent. Magazine-quarterly cadence — type carries the voice.</p>
+          <div class="card__tags">
+            <span class="tag">Editorial</span>
+            <span class="tag">Restrained</span>
+            <span class="tag">Serif-led</span>
+          </div>
+          <span class="card__open">Open demo <span class="arr">→</span></span>
+        </div>
+      </a>
+
+      <!-- 02 VAULT -->
+      <a class="card" href="demos/02-vault/index.html">
+        <div class="tile tile--vault">
+          <div class="preview">
+            [ <span class="hl">UPPER_CAPITAL</span> ]<br/>
+            // FIRST_MONEY_IN
+          </div>
+        </div>
+        <div class="card__body">
+          <span class="card__no">— 02</span>
+          <span class="card__name">Vault</span>
+          <p class="card__desc">Brutalist, industrial, mono-driven. Hard black with an acid accent. Engine-room aesthetic — instrument, not website.</p>
+          <div class="card__tags">
+            <span class="tag">Brutalist</span>
+            <span class="tag">Mono</span>
+            <span class="tag">Technical</span>
+          </div>
+          <span class="card__open">Open demo <span class="arr">→</span></span>
+        </div>
+      </a>
+
+      <!-- 03 APERTURE -->
+      <a class="card" href="demos/03-aperture/index.html">
+        <div class="tile tile--aperture">
+          <div class="preview">
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+          </div>
+        </div>
+        <div class="card__body">
+          <span class="card__no">— 03</span>
+          <span class="card__name">Aperture</span>
+          <p class="card__desc">WebGL futurist. Three.js hero — a deep-space aperture of concentric rings and dust. Cinematic, atmospheric, eccentric.</p>
+          <div class="card__tags">
+            <span class="tag">3D / WebGL</span>
+            <span class="tag">Atmospheric</span>
+            <span class="tag">Experimental</span>
+          </div>
+          <span class="card__open">Open demo <span class="arr">→</span></span>
+        </div>
+      </a>
+
+      <!-- 04 FORUM -->
+      <a class="card" href="demos/04-forum/index.html">
+        <div class="tile tile--forum">
+          <div class="preview">
+            Capital
+            <em>change.</em>
+          </div>
+        </div>
+        <div class="card__body">
+          <span class="card__no">— 04</span>
+          <span class="card__name">Forum</span>
+          <p class="card__desc">Editorial maximalist. Deep teal &amp; rust, Didone display, kinetic type. Type as event — magazine spread on the web.</p>
+          <div class="card__tags">
+            <span class="tag">Maximalist</span>
+            <span class="tag">Didone</span>
+            <span class="tag">Kinetic</span>
+          </div>
+          <span class="card__open">Open demo <span class="arr">→</span></span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="foot">
+      <span>Content scraped from upper.capital · placeholders pending client assets</span>
+      <span id="footer-time">— · — · —</span>
+    </div>
+  </div>
+
+  <script>
+    // Stamp the date in a quietly system-y way.
+    (function () {
+      const d = new Date();
+      const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+      const dateStr = `${months[d.getMonth()]} ${d.getDate()} · ${d.getFullYear()}`;
+      const el = document.getElementById("date");
+      if (el) el.textContent = dateStr;
+
+      function tick() {
+        const t = new Date();
+        const p = (n) => String(n).padStart(2, "0");
+        const s = `${p(t.getUTCHours())}:${p(t.getUTCMinutes())}:${p(t.getUTCSeconds())} UTC`;
+        const ft = document.getElementById("footer-time");
+        if (ft) ft.textContent = s;
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
+</body>
+</html>
