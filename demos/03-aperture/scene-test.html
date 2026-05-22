@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>APERTURE — scroll to test</title>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            background: #000;
+            color: #d8e0f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+                         Helvetica, Arial, system-ui, sans-serif;
+            font-weight: 400;
+            min-height: 300vh;       /* 3x viewport so scrolling has meaning */
+            overflow-x: hidden;
+        }
+
+        /* The scene canvas is pinned to the viewport; the body scrolls
+           behind/under it and drives setScrollProgress(). */
+        #aperture-stage {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 0;
+        }
+
+        /* Floating debug label */
+        .hud {
+            position: fixed;
+            z-index: 10;
+            left: 50%;
+            top: 28px;
+            transform: translateX(-50%);
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            font-size: 11px;
+            color: rgba(216, 224, 240, 0.62);
+            text-shadow: 0 0 24px rgba(79, 227, 255, 0.25);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .hud .dot {
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #4fe3ff;
+            box-shadow: 0 0 12px #4fe3ff;
+            margin: 0 0.6em 0.18em 0;
+            vertical-align: middle;
+        }
+
+        .scroll-meter {
+            position: fixed;
+            z-index: 10;
+            left: 50%;
+            bottom: 28px;
+            transform: translateX(-50%);
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            color: rgba(216, 224, 240, 0.45);
+            font-variant-numeric: tabular-nums;
+            pointer-events: none;
+        }
+
+        /* Invisible spacer to make the page scrollable. */
+        .spacer { height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="aperture-stage"></div>
+
+    <div class="hud"><span class="dot"></span>APERTURE — scroll to test</div>
+    <div class="scroll-meter" id="scroll-meter">t = 0.000</div>
+
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import { initAperture } from './scene.js';
+
+        const stage = document.getElementById('aperture-stage');
+        const meter = document.getElementById('scroll-meter');
+        const aperture = initAperture(stage);
+
+        function updateScroll() {
+            const max = document.body.scrollHeight - window.innerHeight;
+            const t = max > 0 ? window.scrollY / max : 0;
+            aperture.setScrollProgress(t);
+            meter.textContent = 't = ' + t.toFixed(3);
+        }
+
+        window.addEventListener('scroll', updateScroll, { passive: true });
+        window.addEventListener('resize', updateScroll);
+        updateScroll();
+    </script>
+</body>
+</html>
