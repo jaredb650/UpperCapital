@@ -414,7 +414,7 @@ img { max-width: 100%; display: block; }
   padding-top: 1.5rem;
   border-top: 1px solid var(--rule);
 }
-.signal {
+.signal-item {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   letter-spacing: 0.04em;
@@ -423,7 +423,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 0.7rem;
 }
-.signal__dot {
+.signal-item__dot {
   width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--cyan);
@@ -725,14 +725,27 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   padding: clamp(5rem, 10vw, 8rem) var(--margin);
 }
-.signal__inner { display: grid; gap: 2.5rem; max-width: 64ch; }
+.signal__inner {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+@media (max-width: 820px) { .signal__inner { grid-template-columns: 1fr; } }
+
 .signal__head {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(2rem, 5vw + 0.5rem, 5rem);
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-size: clamp(2rem, 4vw + 0.4rem, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
   color: var(--bone);
+}
+
+.signal__side {
+  display: grid;
+  gap: 2.5rem;
+  align-content: start;
 }
 .signal__head em {
   font-style: normal;
