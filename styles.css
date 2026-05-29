@@ -13,13 +13,13 @@
   --ink-mute:  #8b8b8e;
   --ink-dim:   #4a4a4f;
 
-  /* Acid lime — the single hot accent */
-  --hl:        #c8ff2c;
-  --hl-deep:   #9bcc00;
+  /* Electric fuchsia — the single hot accent */
+  --hl:        #c026d9;
+  --hl-deep:   #a21caf;
 
   --rule:      rgba(237, 237, 237, 0.16);
   --rule-soft: rgba(237, 237, 237, 0.08);
-  --rule-hl:   rgba(200, 255, 44, 0.4);
+  --rule-hl:   rgba(192, 38, 217, 0.4);
 
   --font:      "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
@@ -44,7 +44,7 @@ body {
   /* Tight scanline texture */
   background-image:
     linear-gradient(180deg, transparent 0px, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px),
-    radial-gradient(ellipse at 50% 0%, rgba(200, 255, 44, 0.06), transparent 70%);
+    radial-gradient(ellipse at 50% 0%, rgba(192, 38, 217, 0.06), transparent 70%);
   background-attachment: fixed;
   overflow-x: hidden;
   cursor: none;
@@ -74,7 +74,7 @@ button { font: inherit; cursor: none; }
 }
 .crosshair__v, .crosshair__h {
   position: fixed;
-  background: rgba(200, 255, 44, 0.5);
+  background: rgba(192, 38, 217, 0.5);
   pointer-events: none;
 }
 .crosshair__v { width: 1px; height: 100vh; top: 0; }
@@ -90,96 +90,13 @@ button { font: inherit; cursor: none; }
 .crosshair.is-hover .crosshair__dot {
   width: 24px;
   height: 24px;
-  background: rgba(200, 255, 44, 0.1);
+  background: rgba(192, 38, 217, 0.1);
 }
 
 @media (hover: none), (pointer: coarse) {
   body { cursor: auto; }
   .crosshair { display: none; }
   a, button { cursor: pointer; }
-}
-
-/* ============================================================
-   SYSTEM BAR
-   ============================================================ */
-.sysbar {
-  position: relative;
-  z-index: 30;
-  background: var(--bg);
-  border-bottom: 1px solid var(--rule);
-}
-.sysbar__inner {
-  display: flex;
-  gap: 0;
-  padding: 0;
-  max-width: var(--max);
-  margin: 0 auto;
-  overflow: hidden;
-}
-.sysbar__cell {
-  padding: 0.65rem 1rem;
-  border-right: 1px solid var(--rule);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  color: var(--ink-mute);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  white-space: nowrap;
-}
-.sysbar__cell--right {
-  margin-left: auto;
-  border-right: none;
-  color: var(--hl);
-}
-@media (max-width: 760px) {
-  .sysbar__cell { padding: 0.55rem 0.65rem; font-size: 0.62rem; letter-spacing: 0.1em; }
-  .sysbar__cell:nth-child(3),
-  .sysbar__cell:nth-child(4) { display: none; }
-}
-.dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  display: inline-block;
-}
-.dot--live {
-  background: var(--hl);
-  box-shadow: 0 0 8px var(--hl);
-  animation: blink 2s infinite;
-}
-@keyframes blink {
-  0%, 60%, 100% { opacity: 1; }
-  80% { opacity: 0.2; }
-}
-
-/* ============================================================
-   TICKER
-   ============================================================ */
-.ticker {
-  overflow: hidden;
-  border-bottom: 1px solid var(--rule);
-  background: linear-gradient(180deg, rgba(200, 255, 44, 0.04), transparent);
-}
-.ticker__track {
-  display: flex;
-  white-space: nowrap;
-  gap: 1.5rem;
-  padding: 0.6rem 0;
-  animation: ticker 40s linear infinite;
-  font-size: 0.78rem;
-  letter-spacing: 0.16em;
-  color: var(--ink);
-  font-weight: 500;
-  width: max-content;
-}
-.ticker__track .sep {
-  color: var(--hl);
-  display: inline-flex;
-  align-items: center;
-}
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
 }
 
 /* ============================================================
@@ -537,7 +454,7 @@ button { font: inherit; cursor: none; }
   transition: background 0.15s linear;
 }
 .focus-table tbody tr:hover {
-  background: rgba(200, 255, 44, 0.04);
+  background: rgba(192, 38, 217, 0.04);
 }
 @media (max-width: 720px) {
   .focus-table { font-size: 0.82rem; }

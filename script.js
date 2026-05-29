@@ -12,9 +12,7 @@
   function tick() {
     const d = new Date();
     const s = `${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())} UTC`;
-    const a = document.getElementById("time-stamp");
     const b = document.getElementById("footer-time");
-    if (a) a.textContent = s;
     if (b) b.textContent = s;
   }
   tick();
